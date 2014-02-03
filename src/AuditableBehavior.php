@@ -14,15 +14,16 @@ class AuditableBehavior extends Behavior
     
     public function objectMethods($builder)
     {
-        return '
-        /**
-         * Returns the original field values of this object
-         */
-         
-         public function getOriginalFieldValues()
-         {
-             return $this->originalFieldValues;
-         }
-         ';
+        $columnNames = array();
+        $columns = $this->getTable()->getColumns();
+        foreach ($columns as $iColumn) {
+            $columnNames[] = $iColumn->getName();
+        }
+        
+        $tpl = $this->renderTemplate('ObjectMethodGetOriginalFieldValues', array(
+           'columnNames' => $columnNames
+        ));
+        
+        return $tpl;
     }
 }
