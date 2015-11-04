@@ -45,7 +45,7 @@ EOF;
     {
         $testObject = new TestModel();
         $testObject->hydrate(array(101, 'reynaldocastellano@gmail.com'));
-        $this->assertEquals($testObject->getOriginalFieldValues(), array(101, 'reynaldocastellano@gmail.com'));
+        $this->assertEquals($testObject->getOriginalFieldValues(false), array(101, 'reynaldocastellano@gmail.com'));
     }
     
     public function testPreservationOfOriginalValuesAfterSave()
@@ -53,11 +53,11 @@ EOF;
         $origValues = array(101, 'reynaldocastellano@gmail.com');
         $testObject = new TestModel();
         $testObject->hydrate($origValues);
-        $this->assertEquals($testObject->getOriginalFieldValues(), $origValues);
+        $this->assertEquals($testObject->getOriginalFieldValues(false), $origValues);
         $testObject->setEmailAddress('logancastellano@gmail.com');
         $this->assertEquals($testObject->getEmailAddress(), 'logancastellano@gmail.com');
         $testObject->save();
-        $this->assertEquals($testObject->getOriginalFieldValues(), $origValues);
+        $this->assertEquals($testObject->getOriginalFieldValues(false), $origValues);
     }
     
     public function testPreservationOfOriginalValuesAfterDelete()
@@ -66,6 +66,15 @@ EOF;
         $testObject = new TestModel();
         $testObject->hydrate($origValues);
         $testObject->delete();
-        $this->assertEquals($testObject->getOriginalFieldValues(), $origValues);
+        $this->assertEquals($testObject->getOriginalFieldValues(false), $origValues);
     }
+    
+    public function testMappedOriginalValues()
+    {
+        $origValues = array(101, 'reynaldocastellano@gmail.com');
+        $testObject = new TestModel();
+        $testObject->hydrate($origValues);
+        $this->assertEquals($testObject->getOriginalFieldValues(true), array('id' => 101, 'email_address' => 'reynaldocastellano@gmail.com'));
+    }
+    
 }
