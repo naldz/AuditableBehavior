@@ -4,12 +4,22 @@ class AuditableBehavior extends Behavior
 {
     public function objectAttributes($builder)
     {
-        return 'protected $originalFieldValues = null;';
+		return "protected \$originalFieldValues = null; \n protected \$wasNew = false; \n protected \$wasModified = false;";
+    }
+
+    public function preSave()
+    {   
+        return "\$this->wasNew = \$this->isNew();";
+    }
+
+    public function preUpdate()
+    {
+        return "\$this->wasModified = \$this->isModified();";
     }
     
     public function postHydrate()
     {
-        return '$this->originalFieldValues = $row;';
+        return "\$this->wasNew = \$this->getWasNew(); \n \$this->wasModified = \$this->getWasModified(); \n \$this->originalFieldValues = \$row;";
     }
     
     public function objectMethods($builder)
@@ -26,4 +36,5 @@ class AuditableBehavior extends Behavior
         
         return $tpl;
     }
+
 }
