@@ -9,17 +9,12 @@ class AuditableBehavior extends Behavior
 
     public function preSave()
     {   
-        return "\$this->wasNew = \$this->isNew();";
-    }
-
-    public function preUpdate()
-    {
-        return "\$this->wasModified = \$this->isModified();";
+        return "\$this->wasNew = \$this->isNew(); \n \$this->wasModified = \$this->isModified();";
     }
     
     public function postHydrate()
     {
-        return "\$this->wasNew = \$this->isNew(); \n \$this->wasModified = \$this->wasModified(); \n \$this->originalFieldValues = \$row;";
+        return "\$this->wasNew = \$this->isNew(); \n \$this->originalFieldValues = \$row;";
     }
     
     public function objectMethods($builder)
