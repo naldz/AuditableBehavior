@@ -80,14 +80,14 @@ EOF;
     {
     	$testObject = new TestModel();
         $refTestObject = new ReflectionObject($testObject);
-        $this->assertTrue($refTestObject->hasProperty('wasNew'), 'The property "was_new" was NOT declared in model');
+        $this->assertTrue($refTestObject->hasProperty('wasNew'), 'The property "wasNew" was NOT declared in model');
     }
 
     public function testWasModifiedPropertyDeclaration()
     {
     	$testObject = new TestModel();
         $refTestObject = new ReflectionObject($testObject);
-        $this->assertTrue($refTestObject->hasProperty('wasModified'), 'The property "was_modified" was NOT declared in model');
+        $this->assertTrue($refTestObject->hasProperty('wasModified'), 'The property "wasModified" was NOT declared in model');
     }
 
     public function testWasNewMethodDeclaration()
