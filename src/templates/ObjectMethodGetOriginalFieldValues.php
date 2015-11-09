@@ -34,5 +34,8 @@ public function wasNew()
 
 public function wasModified()
 {
+    if(is_null($this->wasModified)) {
+        return $this->isModified();
+    }
     return $this->wasModified;
 }

@@ -116,7 +116,7 @@ EOF;
         // $testObject->setEmailAddress('reynaldocastellano@gmail.com');
         // $this->assertEquals(true, $testObject->wasNew());
         // $testObject->save();
-        $this->assertEquals(false, $testObject->wasNew());
+        $this->assertEquals(true, $testObject->wasNew());
         $testObject->hydrate($origValues);
         $this->assertEquals(false, $testObject->wasNew());
         $testObject->setEmailAddress('logancastellano@gmail.com');

@@ -4,7 +4,7 @@ class AuditableBehavior extends Behavior
 {
     public function objectAttributes($builder)
     {
-		return "protected \$originalFieldValues = null; \n protected \$wasNew = false; \n protected \$wasModified = false;";
+		return "protected \$originalFieldValues = null; \n protected \$wasNew = true; \n protected \$wasModified = null;";
     }
 
     public function preSave()
