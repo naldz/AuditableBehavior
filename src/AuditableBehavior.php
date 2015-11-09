@@ -19,7 +19,7 @@ class AuditableBehavior extends Behavior
     
     public function postHydrate()
     {
-        return "\$this->wasNew = \$this->getWasNew(); \n \$this->wasModified = \$this->getWasModified(); \n \$this->originalFieldValues = \$row;";
+        return "\$this->wasNew = \$this->isNew(); \n \$this->wasModified = \$this->wasModified(); \n \$this->originalFieldValues = \$row;";
     }
     
     public function objectMethods($builder)

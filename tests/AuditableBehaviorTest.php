@@ -94,14 +94,14 @@ EOF;
     {
         $testObject = new TestModel();
         $refTestObject = new ReflectionObject($testObject);
-        $this->assertTrue($refTestObject->hasMethod('getWasNew'));
+        $this->assertTrue($refTestObject->hasMethod('wasNew'));
     }
 
     public function testWasModifiedMethodDeclaration()
     {
         $testObject = new TestModel();
         $refTestObject = new ReflectionObject($testObject);
-        $this->assertTrue($refTestObject->hasMethod('getWasModified'));
+        $this->assertTrue($refTestObject->hasMethod('wasModified'));
     }
 
     public function testPreservationOfWasNewAfterSave()
@@ -110,34 +110,34 @@ EOF;
         $testObject = new TestModel();
         // $testObject->setId(101);
         // $testObject->setEmailAddress('logancastellano@gmail.com');
-        // $this->assertEquals(false, $testObject->getWasNew());
+        // $this->assertEquals(false, $testObject->wasNew());
         // $testObject->save();
-        // $this->assertEquals(true, $testObject->getWasNew());
+        // $this->assertEquals(true, $testObject->wasNew());
         // $testObject->setEmailAddress('reynaldocastellano@gmail.com');
-        // $this->assertEquals(true, $testObject->getWasNew());
+        // $this->assertEquals(true, $testObject->wasNew());
         // $testObject->save();
-        $this->assertEquals(false, $testObject->getWasNew());
+        $this->assertEquals(false, $testObject->wasNew());
         $testObject->hydrate($origValues);
-        $this->assertEquals(false, $testObject->getWasNew());
+        $this->assertEquals(false, $testObject->wasNew());
         $testObject->setEmailAddress('logancastellano@gmail.com');
         $testObject->save();
-        $this->assertEquals(false, $testObject->getWasNew());
+        $this->assertEquals(false, $testObject->wasNew());
         $testObject->delete();
-        $this->assertEquals(false, $testObject->getWasNew());
+        $this->assertEquals(false, $testObject->wasNew());
     }
 
     public function testPreservationOfWasModified()
     {
         $origValues = array(101, 'reynaldocastellano@gmail.com');
         $testObject = new TestModel();
-        $this->assertEquals(false, $testObject->getWasModified());
+        $this->assertEquals(false, $testObject->wasModified());
         $testObject->hydrate($origValues);
         $testObject->setEmailAddress('logancastellano@gmail.com');
-        $this->assertEquals(false, $testObject->getWasModified());
+        $this->assertEquals(false, $testObject->wasModified());
         $testObject->save();
-        $this->assertEquals(true, $testObject->getWasModified());
+        $this->assertEquals(true, $testObject->wasModified());
         $testObject->delete();
-        $this->assertEquals(true, $testObject->getWasModified());
+        $this->assertEquals(true, $testObject->wasModified());
     }
     
 }

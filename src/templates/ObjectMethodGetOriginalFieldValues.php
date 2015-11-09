@@ -22,7 +22,7 @@ public function getOriginalFieldValues($mapped = true)
  * Return true if object was new before saving
  */
 
-public function getWasNew()
+public function wasNew()
 {
     return $this->wasNew;
 }
@@ -32,7 +32,7 @@ public function getWasNew()
  * Return true if object was modified
  */
 
-public function getWasModified()
+public function wasModified()
 {
     return $this->wasModified;
 }
