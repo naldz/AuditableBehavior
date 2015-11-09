@@ -17,3 +17,25 @@ public function getOriginalFieldValues($mapped = true)
 
     return $returnValues;
 }
+
+/**
+ * Return true if object was new before saving
+ */
+
+public function wasNew()
+{
+    return $this->wasNew;
+}
+
+
+/**
+ * Return true if object was modified
+ */
+
+public function wasModified()
+{
+    if(is_null($this->wasModified)) {
+        return $this->isModified();
+    }
+    return $this->wasModified;
+}

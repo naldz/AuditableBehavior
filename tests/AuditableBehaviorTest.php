@@ -1,6 +1,5 @@
 <?php
-
-class MyAwesomeBehaviorTest extends \PHPUnit_Framework_TestCase
+class AuditableBehaviorTest extends \PHPUnit_Framework_TestCase
 {
 
     private $con;
@@ -11,7 +10,7 @@ class MyAwesomeBehaviorTest extends \PHPUnit_Framework_TestCase
             $schema = <<<EOF
 <database name="TestDatabase" defaultIdMethod="native">
     <table name="TestModel">
-        <column name="id" phpName="Id" type="SMALLINT" primaryKey="true" autoIncrement="true" required="true" />
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true" />
         <column name="email_address" phpName="EmailAddress" type="VARCHAR" size="100" required="true" />
         <behavior name="auditable" />
     </table>
@@ -75,6 +74,65 @@ EOF;
         $testObject = new TestModel();
         $testObject->hydrate($origValues);
         $this->assertEquals($testObject->getOriginalFieldValues(true), array('id' => 101, 'email_address' => 'reynaldocastellano@gmail.com'));
+    }
+    
+    public function testWasNewPropertyDeclaration()
+    {
+    	$testObject = new TestModel();
+        $refTestObject = new ReflectionObject($testObject);
+        $this->assertTrue($refTestObject->hasProperty('wasNew'), 'The property "wasNew" was NOT declared in model');
+    }
+
+    public function testWasModifiedPropertyDeclaration()
+    {
+    	$testObject = new TestModel();
+        $refTestObject = new ReflectionObject($testObject);
+        $this->assertTrue($refTestObject->hasProperty('wasModified'), 'The property "wasModified" was NOT declared in model');
+    }
+
+    public function testWasNewMethodDeclaration()
+    {
+        $testObject = new TestModel();
+        $refTestObject = new ReflectionObject($testObject);
+        $this->assertTrue($refTestObject->hasMethod('wasNew'));
+    }
+
+    public function xtestWasModifiedMethodDeclaration()
+    {
+        $testObject = new TestModel();
+        $refTestObject = new ReflectionObject($testObject);
+        $this->assertTrue($refTestObject->hasMethod('wasModified'));
+    }
+
+    public function testPreservationOfWasNewProperty()
+    {
+        $origValues = array(101, 'reynaldocastellano@gmail.com');
+        $testObject = new TestModel();
+        $testObject->setEmailAddress('logancastellano@gmail.com');
+        $this->assertEquals(true, $testObject->wasNew());
+        $testObject->save();
+        $this->assertEquals(true, $testObject->wasNew());
+        $testObject->hydrate($origValues);
+        $this->assertEquals(false, $testObject->wasNew());
+        $testObject->setEmailAddress('logancastellano@gmail.com');
+        $testObject->save();
+        $this->assertEquals(false, $testObject->wasNew());
+        $testObject->delete();
+        $this->assertEquals(false, $testObject->wasNew());
+    }
+
+    public function testPreservationOfWasModifiedProperty()
+    {
+        $origValues = array(101, 'reynaldocastellano@gmail.com');
+        $testObject = new TestModel();
+        $this->assertEquals(false, $testObject->wasModified());
+        $testObject->hydrate($origValues);
+        $testObject->setEmailAddress('logancastellano@gmail.com');
+        $this->assertEquals(true, $testObject->wasModified());
+        $testObject->save();
+        $this->assertEquals(true, $testObject->wasModified());
+        $testObject->delete();
+        $this->assertEquals(true, $testObject->wasModified());
     }
     
 }
