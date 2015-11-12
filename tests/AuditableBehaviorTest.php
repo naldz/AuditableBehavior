@@ -134,5 +134,24 @@ EOF;
         $testObject->delete();
         $this->assertEquals(true, $testObject->wasModified());
     }
+
+    public function testPreservationOfWasNewPropertyOnMultipleSave()
+    {
+        $testObject = new TestModel();
+        $testObject->setEmailAddress('reynaldocastellano@gmail.com');
+        $testObject->save();
+        $this->assertEquals(true, $testObject->wasNew());
+        $testObject->save();
+        $this->assertEquals(true, $testObject->wasNew());
+    }
     
+    public function testPreservationOfWasModifiedPropertyOnMultipleSave()
+    {
+        $testObject = new TestModel();
+        $testObject->setEmailAddress('reynaldocastellano@gmail.com');
+        $testObject->save();
+        $this->assertEquals(true, $testObject->wasModified());
+        $testObject->save();
+        $this->assertEquals(true, $testObject->wasModified());
+    }
 }
