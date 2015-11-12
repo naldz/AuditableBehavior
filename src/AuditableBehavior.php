@@ -4,17 +4,28 @@ class AuditableBehavior extends Behavior
 {
     public function objectAttributes($builder)
     {
-		return "protected \$originalFieldValues = null; \n protected \$wasNew = true; \n protected \$wasModified = null;";
+		return "
+            protected \$originalFieldValues = null; \n 
+            protected \$wasNew = true; \n 
+            protected \$wasModified = null; \n 
+        ";
     }
 
     public function preSave()
     {   
-        return "\$this->wasNew = \$this->isNew(); \n \$this->wasModified = \$this->isModified();";
+        return "
+            if (is_null(\$this->wasModified)) { \n
+                \$this->wasModified = \$this->isModified(); \n
+            }
+        ";
     }
     
     public function postHydrate()
     {
-        return "\$this->wasNew = \$this->isNew(); \n \$this->originalFieldValues = \$row;";
+        return "
+            \$this->wasNew = \$this->isNew(); \n 
+            \$this->originalFieldValues = \$row;
+        ";
     }
     
     public function objectMethods($builder)
